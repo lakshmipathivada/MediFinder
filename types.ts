@@ -1,43 +1,61 @@
-export interface RegisteredCustomer {
+export interface MedicineReminder {
   id: string;
-  name: string;
-  phone: string;
-  createdAt: string;
-  loginsCount?: number;
-  firstLogin?: string;
-  lastActive?: string;
-  isOnline?: boolean;
+  userPhone: string;
+  medicineName: string;
+  medicineType: string;
+  dosage: string;
+  times: string[]; // e.g. ["08:00", "20:00"]
+  foodInstruction: string; // 'Before Food' | 'After Food' | 'With Food' | 'Empty Stomach'
+  frequency: string; // 'Daily' | 'Twice Daily' | 'Weekly' | 'As Needed'
+  startDate: string;
+  endDate?: string;
+  active: boolean;
+  notes?: string;
+  snoozedUntil?: number; // timestamp
+  createdAt: number;
 }
 
-export interface SearchQueryLog {
+export interface DoseLog {
   id: string;
-  customerName: string;
-  customerPhone: string;
-  query: string;
-  timestamp: string;
+  reminderId: string;
+  userPhone: string;
+  medicineName: string;
+  scheduledTimeSlot: string;
+  takenAt: number; // timestamp
+  date: string; // 'YYYY-MM-DD'
+  status: 'taken_on_time' | 'taken_late' | 'skipped' | 'missed';
+  notes?: string;
 }
 
 export interface Pharmacy {
   id: string;
   name: string;
+  ownerName?: string;
+  email?: string;
   address: string;
+  city: string;
+  phone: string;
+  distanceKm: number;
   lat: number;
   lng: number;
-  contactNumber: string;
-  rating: number; // e.g., 4.8
-  isBestRated?: boolean;
+  openHours: string;
+  isOpen: boolean;
+  rating?: number;
   medicines: {
-    [medicineName: string]: number; // Price in ₹
-  };
-  stocks?: {
-    [medicineName: string]: number; // Stock count
-  };
-  createdAt: string;
+    name: string;
+    genericName: string;
+    dosage: string;
+    price: number;
+    stockStatus: 'In Stock' | 'Low Stock' | 'Out of Stock';
+    quantity: number;
+  }[];
 }
 
-export interface UserCoords {
-  lat: number;
-  lng: number;
-  isLive: boolean;
-  simulatedName?: string;
+export interface UserProfile {
+  uid?: string;
+  name: string;
+  phone: string;
+  email?: string;
+  avatar?: string;
+  authProvider?: 'google' | 'phone' | 'guest';
 }
